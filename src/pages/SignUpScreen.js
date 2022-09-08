@@ -1,20 +1,18 @@
 import styled from "styled-components";
-import Background from "../assets/images/Background.png";
 import PW_Icon from "../assets/images/Pw_Icon.svg";
 import User_Icon from "../assets/images/User_Icon.svg";
+import Envelope_Close from "../assets/images/Envelope_Close_Icon.svg";
 import Logo1 from "../assets/images/LndMark_logo.svg";
 import {
   Typography,
-  CircularProgress,
   OutlinedInput,
   Link,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import theme from "../Theme";
-import Signup_Icon from "../assets/images/Signup_Icon.svg";
+import User_Icon2 from "../assets/images/User_Icon2.svg";
 import Help_Icon from "../assets/images/Help_Icon.svg";
-import { Formik } from "formik";
-import * as yup from "yup";
 import {
   LowerIcon,
   LowerButtonContainerDiv,
@@ -29,26 +27,31 @@ import {
   ClickTextLower,
   ClickText,
 } from "../components/StyledComponents";
+import { Formik } from "formik";
+import * as yup from "yup";
 
 const ReviewSchema = yup.object({
   UserName: yup.string().required("Please Enter Username"),
+  Email: yup.string().email("Please enter a valid email"),
   Password: yup.string().required("Password error"),
 });
-const SignInScreen = () => {
+
+const SignUpScreen = () => {
   return (
     <BackgroundDiv>
       <MainColDiv>
         <Logo src={Logo1} />
         <Typography variant="login_blue_heading">
-          Login to your account
+          Create your account for FREE!
         </Typography>
         <Typography variant="login_gray_heading">
-          Enter your username and password to login.
+          Enter your information below to get started.
         </Typography>
         <Formik
           validationSchema={ReviewSchema}
           initialValues={{
             UserName: "",
+            Email: "",
             Password: "",
           }}
           onSubmit={(values, { resetForm }) => {
@@ -72,12 +75,24 @@ const SignInScreen = () => {
               </TextFieldContainerRowDiv>
               <TextFieldContainerRowDiv>
                 <TextfieldIconContainerDiv>
+                  <TextfieldIcon src={Envelope_Close} />
+                </TextfieldIconContainerDiv>
+                <InputField
+                  onChange={props.handleChange("Email")}
+                  value={props.values.Email}
+                  sx={{ input: { color: "black" } }}
+                  size="small"
+                  placeholder="Email"
+                />
+              </TextFieldContainerRowDiv>
+              <TextFieldContainerRowDiv>
+                <TextfieldIconContainerDiv>
                   <TextfieldIcon src={PW_Icon} />
                 </TextfieldIconContainerDiv>
                 <InputField
+                  type="password"
                   onChange={props.handleChange("Password")}
                   value={props.values.Password}
-                  type="password"
                   sx={{ input: { color: "black" } }}
                   size="small"
                   placeholder="Password"
@@ -87,9 +102,10 @@ const SignInScreen = () => {
                 <Button
                   sx={{ marginBottom: "10px" }}
                   style={theme.login_Button}
-                  onClick={props.handleSubmit}
+                  type="submit"
+                  onClick={props.submitForm}
                 >
-                  Sign in
+                  Create Account
                 </Button>
               ) : (
                 <CircularProgress sx={{ alignSelf: "center" }} />
@@ -98,19 +114,22 @@ const SignInScreen = () => {
           )}
         </Formik>
 
-        <ClickText href="/forgotpassword" underline="none">
-          {"Forgot your password?"}
-        </ClickText>
+        <Typography variant="login_gray_heading">
+          By creating an account, you agree to our
+          <ClickText href="#" underline="none">
+            {" Terms & Privacy Policy."}
+          </ClickText>
+        </Typography>
       </MainColDiv>
       <LowerRowDiv>
         <LowerButtonContainerDiv>
-          <LowerIcon src={Signup_Icon} />
+          <LowerIcon src={User_Icon2} />
           <ClickTextLower
             style={theme.typography.clicktext_lower_blue}
-            href="/signUp"
+            href="/signIn"
             underline="none"
           >
-            {"Sign up"}
+            {"Login"}
           </ClickTextLower>
         </LowerButtonContainerDiv>
         <LowerButtonContainerDiv>
@@ -127,4 +146,4 @@ const SignInScreen = () => {
     </BackgroundDiv>
   );
 };
-export default SignInScreen;
+export default SignUpScreen;
